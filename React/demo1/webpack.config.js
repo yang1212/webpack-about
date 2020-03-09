@@ -3,9 +3,14 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 module.exports = {
     mode: 'development',
-    entry: './src/index.js', // 入口文件
+    // entry: './src/index.js', // 入口文件
+    entry: {
+      app: './src/index.js',
+      vendor: ['react', 'react-dom']
+    },
     output: {
       publicPath: '/', // 会为资源添加一个前缀(参考：juejin.im/post/5bb085dd6fb9a05cd24da5cf)
       path: path.resolve(__dirname, 'dist'), // 出口目录，dist文件
@@ -50,12 +55,31 @@ module.exports = {
         }
       ]
     },
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          // vendors: {
+          //   test: /react/,
+          //   name: 'vendors'
+          // }
+          vendor: {
+            name: 'vendor',
+            chunks: "all"
+          }
+        }
+      }
+    },
     plugins: [
       new HtmlWebpackPlugin({
         template: './index.html',
       }),
       new CleanWebpackPlugin("./dist"), // 需要写入打包后的文件名
-      new ProgressBarPlugin()
+      new ProgressBarPlugin(),
+      new BundleAnalyzerPlugin({
+        analyzerMode: 'server',
+        generateStatsFile: true,
+        statsOptions: { source: false }
+      })
     ],
     
     devServer: {
