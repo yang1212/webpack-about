@@ -8,7 +8,8 @@ module.exports = {
     mode: 'development',
     // entry: './src/index.js', // 入口文件
     entry: {
-      app: './src/index.js',
+      app: './src/entry1/index.js',
+      lib: './src/entry2/lib.js',
       vendor: ['react', 'react-dom']
     },
     output: {
@@ -57,22 +58,17 @@ module.exports = {
     },
     optimization: {
       splitChunks: {
+        chunks: "all",
         cacheGroups: {
           // vendors: {
           //   test: /react/,
-          //   name: 'vendors'
+          //   name: 'vendors's
           // }
-          vendor: {
-            name: 'vendor',
-            chunks: "all"
-          }
         }
       }
     },
     plugins: [
-      new HtmlWebpackPlugin({
-        template: './index.html',
-      }),
+      new HtmlWebpackPlugin(),
       new CleanWebpackPlugin("./dist"), // 需要写入打包后的文件名
       new ProgressBarPlugin(),
       new BundleAnalyzerPlugin({
