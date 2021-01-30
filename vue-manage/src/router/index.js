@@ -30,6 +30,11 @@ export default new Router({
           path: '/addDoc',
           name: 'addDoc',
           component: () => import(/* webpackChunkName: 'tab1' */ '../pages/pushContent/addDoc')
+        },
+        {
+          path: '/editDoc/:id',
+          name: 'editDoc',
+          component: () => import(/* webpackChunkName: 'tab1' */ '../pages/pushContent/editDoc')
         }
       ]
     }

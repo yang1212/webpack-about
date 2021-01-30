@@ -1,5 +1,4 @@
-// import crypto from 'crypto' // 这个模块的主要功能是加密解密
-const crypto = require('crypto')
+import crypto from 'crypto' // 这个模块的主要功能是加密解密
 
 module.exports = {
   MD5_SUFFIX: 'eiowafnajkdlfjsdkf@#￥%……&）（*&……）',

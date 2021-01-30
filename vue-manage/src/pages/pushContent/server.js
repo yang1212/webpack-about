@@ -1,6 +1,6 @@
 import { get, post } from '../../common/js/require'
 
-export function getFlightDetail (params) {
+export function getLifeData (params) {
   let url = '/pushContent/calculate/getLifeData'
   return new Promise((resolve, reject) => {
     get(url, params).then((res) => {

@@ -15,11 +15,10 @@
 </template>
 
 <script>
-import { addLifeData } from './server'
 import markdownEdit from './component/markdownEdit'
 
 export default {
-  name: 'addDoc',
+  name: 'editDoc',
   components: {
     markdownEdit
   },
@@ -27,9 +26,9 @@ export default {
     return {
       createParam: {
         title: '',
-        content: '',
-        parentId: ''
-      }
+        content: ''
+      },
+      msg: ''
     }
   },
   created () {
@@ -37,9 +36,7 @@ export default {
   methods: {
     saveData () {
       this.createParam.content = this.$refs.markdown.getMarkdown()
-      addLifeData(this.createParam).then(res => {
-        console.log(1, res)
-      })
+      console.log(1, this.createParam)
     }
   }
 }

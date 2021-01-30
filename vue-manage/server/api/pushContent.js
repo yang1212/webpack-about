@@ -1,21 +1,23 @@
 import Express from 'express'
 import List from '../../models/list'
+import Counter from '../../models/counter'
 import { responseClient } from '../utils'
 const router = Express.Router()
 
 router.post('/addLifeData', function (req, res) {
-  const {
-    name,
-    price
-  } = req.body
-  let tempData = new List({
-    name,
-    price
-  })
-  tempData.save().then(data => {
-    responseClient(res,200,200,'保存成功',data)
-  }).cancel(err=>{
-    responseClient(res);
+  const { title, content } = req.body
+  Counter.findOneAndUpdate( {_id: 'productid' }, { $inc:{sequence_value:1} }, {"new":true}, (err, docs)=> {
+    if(err) return err;
+    const tempData = new List({
+      _id: docs.sequence_value,
+      title,
+      content,
+    })
+    tempData.save().then(data => {
+      responseClient(res,200,200,'保存成功',data)
+    }).cancel(err=>{
+      responseClient(res)
+    })
   })
 })
 

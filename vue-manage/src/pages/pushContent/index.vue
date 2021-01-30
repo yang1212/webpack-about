@@ -3,12 +3,18 @@
     <div class="tree-list-box">
       <el-tree :data="treeData" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
     </div>
-    <div></div>
+    <div>
+      <div class="flex_btns">
+        <el-button icon="el-icon-edit" @click="updateDoc" size="small">编辑</el-button>
+        <el-button icon="el-icon-delete" size="small">删除</el-button>
+      </div>
+      <div>接口获取数据内容</div>
+    </div>
   </div>
 </template>
 
 <script>
-// import { getFlightDetail, addLifeData } from './server'
+import { getLifeData } from './server'
 
 export default {
   name: 'HelloWorld',
@@ -19,32 +25,39 @@ export default {
         label: 'label'
       },
       treeData: [
-        {
-          label: '一级 1',
-          children: [{
-            label: '二级 1-1',
-            children: [{
-              label: '三级 1-1-1'
-            }]
-          }]
+        { label: '一级 1',
+          id: 1,
+          children: [
+            { label: '一级1.1', id: 6 }
+          ]
         },
-        {
-          label: '一级 2'
-        }
-      ]
+        { label: '一级 2', id: 2 },
+        { label: '一级 3', id: 3 },
+        { label: '一级 4', id: 4 },
+        { label: '一级 5', id: 5 }
+      ],
+      selectId: ''
     }
   },
   created () {
     // addLifeData({name: '测试2', price: 25}).then(res => {
     //   console.log(1, res)
     // })
-    // getFlightDetail().then(res => {
-    //   console.log(2, res)
-    // })
+    getLifeData().then(res => {
+      console.log(2, res)
+    })
   },
   methods: {
-    handleNodeClick () {
-      console.log(233)
+    handleNodeClick (data) {
+      this.$router.push({
+        path: '/pushContent/' + data.id
+      })
+      this.selectId = data.id
+    },
+    updateDoc () {
+      this.$router.push({
+        path: '/editDoc/' + this.selectId
+      })
     }
   }
 }
@@ -54,11 +67,25 @@ export default {
 <style scoped lang="scss">
 .common-box {
   height: 100%;
-}
-.tree-list-box {
-  width: 200px;
-  border-right: 1px solid #e5e5e5;
-  color: #3572b0;
-  height: 100%;
+  display: flex;
+  .tree-list-box {
+    width: 200px;
+    border-right: 1px solid #e5e5e5;
+    color: #3572b0;
+    height: 100%;
+  }
+  .flex_btns{
+    position: fixed;
+    right: 20px;
+    top: 80px;
+    background-color: #ffffff;
+    /deep/ .el-button{
+      border: none;
+      color: #178fff;
+    }
+    /deep/ .el-dropdown{
+      color: #178fff;
+    }
+  }
 }
 </style>
