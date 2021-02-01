@@ -30,8 +30,9 @@ export default {
       })
     },
     handleCreate () {
+      const parentId = this.$route.params.id
       this.$router.push({
-        path: '/addDoc'
+        path: '/addDoc/' + parentId
       })
     }
   }

@@ -1,20 +1,35 @@
 <template>
   <div class="common-box">
     <div class="tree-list-box">
-      <el-tree :data="treeData" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+      <el-tree
+        ref="tree"
+        node-key="_id"
+        :data="treeData"
+        :props="defaultProps"
+        :load="loadNode"
+        @node-click="handleNodeClick"
+        lazy
+      ></el-tree>
     </div>
     <div>
       <div class="flex_btns">
         <el-button icon="el-icon-edit" @click="updateDoc" size="small">编辑</el-button>
         <el-button icon="el-icon-delete" size="small">删除</el-button>
       </div>
-      <div>接口获取数据内容</div>
+      <div>
+        接口获取数据内容
+        <div id="viewer"></div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { getLifeData } from './server'
+import Viewer from '@toast-ui/editor/dist/toastui-editor-viewer'
+import colorSyntax from '@toast-ui/editor-plugin-color-syntax'
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight'
+import hljs from 'highlight.js'
+import { getLifeData, getList } from './server'
 
 export default {
   name: 'HelloWorld',
@@ -22,41 +37,72 @@ export default {
     return {
       defaultProps: {
         children: 'children',
-        label: 'label'
+        label: 'title',
+        isLeaf: 'isLeaf'
       },
-      treeData: [
-        { label: '一级 1',
-          id: 1,
-          children: [
-            { label: '一级1.1', id: 6 }
-          ]
-        },
-        { label: '一级 2', id: 2 },
-        { label: '一级 3', id: 3 },
-        { label: '一级 4', id: 4 },
-        { label: '一级 5', id: 5 }
-      ],
-      selectId: ''
+      treeData: [],
+      content: '',
+      selectId: '',
+      viewer: null
     }
   },
   created () {
-    // addLifeData({name: '测试2', price: 25}).then(res => {
-    //   console.log(1, res)
-    // })
-    getLifeData().then(res => {
-      console.log(2, res)
+    this.getListData()
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.getData(this.$route.params.id)
     })
   },
   methods: {
-    handleNodeClick (data) {
-      this.$router.push({
-        path: '/pushContent/' + data.id
+    getListData () {
+      getList().then(res => {
+        if (res.resultCode === 200) {
+          this.treeData = res.data
+        }
       })
-      this.selectId = data.id
+    },
+    loadNode (node, resolve) {
+      if (node.level > 0) {
+        getList({
+          parentId: node.data.id
+        }).then(res => {
+          resolve(res.data)
+          this.$nextTick(function () {
+            this.$refs.tree.setCurrentKey(this.selectId)
+          })
+        })
+      }
+    },
+    handleNodeClick (data) {
+      console.log(2, data)
+      this.$router.push({
+        path: '/pushContent/' + data._id
+      })
+      this.selectId = data._id
+      this.getData(this.selectId)
     },
     updateDoc () {
       this.$router.push({
         path: '/editDoc/' + this.selectId
+      })
+    },
+    getData (id) {
+      this.renderView()
+      getLifeData({_id: id}).then(res => {
+        res = res.data
+        if (res.length > 0) {
+          this.content = res[0].content
+          this.viewer.setMarkdown(this.content)
+        }
+      })
+    },
+    renderView  () {
+      this.viewer = new Viewer({
+        el: document.querySelector('#viewer'),
+        initialValue: this.content,
+        plugins: [colorSyntax, [codeSyntaxHighlight, { hljs }]],
+        language: 'zh-CN'
       })
     }
   }

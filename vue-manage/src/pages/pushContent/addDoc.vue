@@ -37,8 +37,17 @@ export default {
   methods: {
     saveData () {
       this.createParam.content = this.$refs.markdown.getMarkdown()
+      if (this.$route.params.id === 'home') {
+        this.createParam.parentId = -1
+      } else {
+        this.createParam.parentId = this.$route.params.id
+      }
       addLifeData(this.createParam).then(res => {
-        console.log(1, res)
+        if (res.resultCode === 200) {
+          this.$router.push({
+            path: '/pushContent/' + res.data._id
+          })
+        }
       })
     }
   }

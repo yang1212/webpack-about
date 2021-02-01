@@ -27,7 +27,7 @@ export default new Router({
           component: () => import(/* webpackChunkName: 'tab1' */ '../pages/pushContent/index')
         },
         {
-          path: '/addDoc',
+          path: '/addDoc/:id',
           name: 'addDoc',
           component: () => import(/* webpackChunkName: 'tab1' */ '../pages/pushContent/addDoc')
         },

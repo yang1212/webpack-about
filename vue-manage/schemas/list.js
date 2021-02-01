@@ -4,5 +4,6 @@ import mongoose from 'mongoose'
 module.exports = new mongoose.Schema({
     title:String,
     content:String,
-    _id: Number
+    _id: Number,
+    parentId: Number
 });
