@@ -50,13 +50,11 @@ export default {
     this.getListData()
   },
   mounted () {
-    this.$nextTick(() => {
-      this.getData(this.$route.params.id)
-    })
+    this.getData(this.$route.params.id)
   },
   methods: {
     getListData () {
-      getList().then(res => {
+      getList({ parentId: -1 }).then(res => {
         if (res.resultCode === 200) {
           this.treeData = res.data
         }
@@ -64,9 +62,7 @@ export default {
     },
     loadNode (node, resolve) {
       if (node.level > 0) {
-        getList({
-          parentId: node.data.id
-        }).then(res => {
+        getList({ parentId: node.data._id }).then(res => {
           resolve(res.data)
           this.$nextTick(function () {
             this.$refs.tree.setCurrentKey(this.selectId)
@@ -75,7 +71,6 @@ export default {
       }
     },
     handleNodeClick (data) {
-      console.log(2, data)
       this.$router.push({
         path: '/pushContent/' + data._id
       })
