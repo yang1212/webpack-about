@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 
 export default {
   name: 'navBar',
@@ -24,7 +25,11 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'updatePage'
+    ]),
     chooseLogo () {
+      this.updatePage('home')
       this.$router.push({
         path: '/pushContent/home'
       })

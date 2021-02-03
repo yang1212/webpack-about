@@ -32,3 +32,25 @@ export function getList (params) {
     })
   })
 }
+
+export function updateData (params) {
+  let url = '/pushContent/calculate/updateData'
+  return new Promise((resolve, reject) => {
+    post(url, params).then((res) => {
+      resolve(res)
+    }).catch((data) => {
+      reject(data)
+    })
+  })
+}
+
+export function delData (params) {
+  let url = '/pushContent/calculate/delData'
+  return new Promise((resolve, reject) => {
+    post(url, params).then((res) => {
+      resolve(res)
+    }).catch((data) => {
+      reject(data)
+    })
+  })
+}

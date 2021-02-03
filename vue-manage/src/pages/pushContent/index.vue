@@ -12,13 +12,13 @@
       ></el-tree>
     </div>
     <div>
-      <div class="flex_btns">
+      <div class="flex_btns" v-if="treeData.length > 0">
         <el-button icon="el-icon-edit" @click="updateDoc" size="small">编辑</el-button>
-        <el-button icon="el-icon-delete" size="small">删除</el-button>
+        <el-button icon="el-icon-delete" size="small" @click="handleDelete">删除</el-button>
       </div>
       <div>
-        接口获取数据内容
-        <div id="viewer"></div>
+        <div v-show="pageType === 'home'">删除元素后跳转此默认首页</div>
+        <div id="viewer" v-show="pageType !== 'home'"></div>
       </div>
     </div>
   </div>
@@ -29,7 +29,8 @@ import Viewer from '@toast-ui/editor/dist/toastui-editor-viewer'
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax'
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight'
 import hljs from 'highlight.js'
-import { getLifeData, getList } from './server'
+import { mapGetters, mapActions } from 'vuex'
+import { getLifeData, getList, delData } from './server'
 
 export default {
   name: 'HelloWorld',
@@ -47,12 +48,25 @@ export default {
     }
   },
   created () {
-    this.getListData()
+    this.selectId = this.$route.params.id
+    this.selectId === 'home' ? this.updatePage('home') : this.updatePage('singleList')
   },
   mounted () {
-    this.getData(this.$route.params.id)
+    this.initData(this.selectId)
+  },
+  computed: {
+    ...mapGetters([
+      'pageType'
+    ])
   },
   methods: {
+    ...mapActions([
+      'updatePage'
+    ]),
+    initData (id) {
+      this.getListData()
+      this.getData(id)
+    },
     getListData () {
       getList({ parentId: -1 }).then(res => {
         if (res.resultCode === 200) {
@@ -71,6 +85,7 @@ export default {
       }
     },
     handleNodeClick (data) {
+      if (this.pageType === 'home') { this.updatePage('singleList') }
       this.$router.push({
         path: '/pushContent/' + data._id
       })
@@ -98,6 +113,17 @@ export default {
         initialValue: this.content,
         plugins: [colorSyntax, [codeSyntaxHighlight, { hljs }]],
         language: 'zh-CN'
+      })
+    },
+    handleDelete () {
+      delData({id: this.selectId}).then(res => {
+        if (res.resultCode === 200) {
+          this.$router.push({
+            path: '/pushContent/home'
+          })
+          this.updatePage('home')
+          this.getListData()
+        }
       })
     }
   }

@@ -5,12 +5,18 @@
 </template>
 
 <script>
-import Editor from '@toast-ui/editor' /* ES6 */
 import 'codemirror/lib/codemirror.css' // Editor's Dependency Style
 import '@toast-ui/editor/dist/toastui-editor.css' // Editor's Style
+import Editor from '@toast-ui/editor' /* ES6 */
 
 export default {
   name: 'markdownEdit',
+  props: {
+    content: {
+      type: String,
+      default: ''
+    }
+  },
   data () {
     return {
       editor: null
@@ -25,8 +31,10 @@ export default {
     initEdit () {
       this.editor = new Editor({
         el: document.querySelector('#editorSection'),
+        initialValue: this.content,
         height: '500px',
         initialEditType: 'markdown',
+        language: 'zh-CN',
         previewStyle: 'vertical'
       })
     },

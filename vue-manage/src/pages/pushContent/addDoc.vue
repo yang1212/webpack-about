@@ -37,18 +37,18 @@ export default {
   methods: {
     saveData () {
       this.createParam.content = this.$refs.markdown.getMarkdown()
-      if (this.$route.params.id === 'home') {
-        this.createParam.parentId = -1
+      this.$route.params.id === 'home' ? (this.createParam.parentId = -1) : (this.createParam.parentId = this.$route.params.id)
+      if (this.createParam.title) {
+        addLifeData(this.createParam).then(res => {
+          if (res.resultCode === 200) {
+            this.$router.push({
+              path: '/pushContent/' + res.data._id
+            })
+          }
+        })
       } else {
-        this.createParam.parentId = this.$route.params.id
+        this.$message.error('标题不能为空')
       }
-      addLifeData(this.createParam).then(res => {
-        if (res.resultCode === 200) {
-          this.$router.push({
-            path: '/pushContent/' + res.data._id
-          })
-        }
-      })
     }
   }
 }
