@@ -1,9 +1,13 @@
 import Express from 'express'
+import fs from 'fs'
 import List from '../../models/list'
 import Counter from '../../models/counter'
 import { responseClient } from '../utils'
-import { connect } from 'mongoose'
 const router = Express.Router()
+const path = require('path')
+const multipart = require('connect-multiparty')
+
+const multipartMiddleware = multipart()
 
 // 新增数据
 router.post('/addLifeData', function (req, res) {
@@ -58,10 +62,17 @@ router.post('/delData', (req, res) => {
   const { id } = req.body;
   List.remove({ '_id': id }).then(data => {
     responseClient(res, 200, 200, '删除成功', data)
-    }).cancel(err => {
-        responseClient(res);
-    })
+  }).cancel(err => {
+    responseClient(res);
+  })
 })
 
+// 写入图片文件：writeFile 与 createWriteStream之间的区别存在疑问，writeFile写入失败
+router.post('/fileData', multipartMiddleware, (req, res) => {
+  const { name, uid } = req.body
+  const reader = fs.createReadStream(req.files.file.path)
+  const stream = fs.createWriteStream(path.join('static', `${uid}${name}`))
+  reader.pipe(stream)
+})
 
 module.exports = router

@@ -13,12 +13,12 @@ export default new Router({
       children: [
         {
           path: '/homePage1',
-          name: 'homePage',
+          name: 'homePage1',
           component: () => import(/* webpackChunkName: 'tab1' */ '../pages/homePage/index')
         },
         {
           path: '/homePage2',
-          name: 'homePage',
+          name: 'homePage2',
           component: () => import(/* webpackChunkName: 'tab1' */ '../pages/homePage/index')
         },
         {

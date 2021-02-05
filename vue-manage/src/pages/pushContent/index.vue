@@ -16,7 +16,7 @@
         <el-button icon="el-icon-edit" @click="updateDoc" size="small">编辑</el-button>
         <el-button icon="el-icon-delete" size="small" @click="handleDelete">删除</el-button>
       </div>
-      <div>
+      <div class="content-container">
         <div v-show="pageType === 'home'">删除元素后跳转此默认首页</div>
         <div id="viewer" v-show="pageType !== 'home'"></div>
       </div>
@@ -86,9 +86,9 @@ export default {
     },
     handleNodeClick (data) {
       if (this.pageType === 'home') { this.updatePage('singleList') }
-      this.$router.push({
-        path: '/pushContent/' + data._id
-      })
+      this.$router.push(
+        { name: 'pushContent', params: { 'id': data._id } }
+      )
       this.selectId = data._id
       this.getData(this.selectId)
     },
@@ -153,6 +153,9 @@ export default {
     /deep/ .el-dropdown{
       color: #178fff;
     }
+  }
+  .content-container {
+    padding: 10px 20px;
   }
 }
 </style>
