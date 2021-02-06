@@ -1,13 +1,8 @@
 import Express from 'express'
-import fs from 'fs'
 import List from '../../models/list'
 import Counter from '../../models/counter'
 import { responseClient } from '../utils'
 const router = Express.Router()
-const path = require('path')
-const multipart = require('connect-multiparty')
-
-const multipartMiddleware = multipart()
 
 // 新增数据
 router.post('/addLifeData', function (req, res) {
@@ -65,14 +60,6 @@ router.post('/delData', (req, res) => {
   }).cancel(err => {
     responseClient(res);
   })
-})
-
-// 写入图片文件：writeFile 与 createWriteStream之间的区别存在疑问，writeFile写入失败
-router.post('/fileData', multipartMiddleware, (req, res) => {
-  const { name, uid } = req.body
-  const reader = fs.createReadStream(req.files.file.path)
-  const stream = fs.createWriteStream(path.join('static', `${uid}${name}`))
-  reader.pipe(stream)
 })
 
 module.exports = router

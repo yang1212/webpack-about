@@ -12,7 +12,7 @@
       ></el-tree>
     </div>
     <div>
-      <div class="flex_btns" v-if="treeData.length > 0">
+      <div class="flex_btns" v-if="treeData.length > 0 && selectId !== 'home'">
         <el-button icon="el-icon-edit" @click="updateDoc" size="small">编辑</el-button>
         <el-button icon="el-icon-delete" size="small" @click="handleDelete">删除</el-button>
       </div>

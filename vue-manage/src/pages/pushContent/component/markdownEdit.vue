@@ -9,6 +9,7 @@ import 'codemirror/lib/codemirror.css' // Editor's Dependency Style
 import '@toast-ui/editor/dist/toastui-editor.css' // Editor's Style
 import Editor from '@toast-ui/editor' /* ES6 */
 import defaultOptions from './defaultOptions'
+import { sumbitImgData } from '../imgServer'
 
 export default {
   name: 'markdownEdit',
@@ -50,12 +51,15 @@ export default {
     },
     handleUpload (file) {
       // if (!this.beforeUpload(file)) return
-      const data = new FormData()
-      data.append('file', file)
-      console.log(1, file, data)
-      // return uploadImgInMd(data).then(res => {
-      //   if (res && res.data) callback(encodeURI(res.data), 'image')
-      // })
+      let fd = new FormData()
+      fd.append('file', file)
+      fd.append('name', file.name)
+      fd.append('uid', file.lastModified)
+      console.log(1, file, fd)
+      return sumbitImgData(fd).then(res => {
+        console.log(2, res)
+        // if (res && res.data) callback(encodeURI(res.data), 'image')
+      })
     },
     getMarkdown () {
       return this.editor.getMarkdown()

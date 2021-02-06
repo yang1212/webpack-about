@@ -1,7 +1,7 @@
 import { post } from '../../common/js/require'
 
 export function getLifeData (params) {
-  let url = '/pushContent/calculate/getLifeData'
+  let url = '/calculate/getLifeData'
   return new Promise((resolve, reject) => {
     post(url, params).then((res) => {
       resolve(res)
@@ -12,7 +12,7 @@ export function getLifeData (params) {
 }
 
 export function addLifeData (params) {
-  let url = '/pushContent/calculate/addLifeData'
+  let url = '/calculate/addLifeData'
   return new Promise((resolve, reject) => {
     post(url, params).then((res) => {
       resolve(res)
@@ -23,7 +23,7 @@ export function addLifeData (params) {
 }
 
 export function getList (params) {
-  let url = '/pushContent/calculate/getList'
+  let url = '/calculate/getList'
   return new Promise((resolve, reject) => {
     post(url, params).then((res) => {
       resolve(res)
@@ -34,7 +34,7 @@ export function getList (params) {
 }
 
 export function updateData (params) {
-  let url = '/pushContent/calculate/updateData'
+  let url = '/calculate/updateData'
   return new Promise((resolve, reject) => {
     post(url, params).then((res) => {
       resolve(res)
@@ -45,18 +45,7 @@ export function updateData (params) {
 }
 
 export function delData (params) {
-  let url = '/pushContent/calculate/delData'
-  return new Promise((resolve, reject) => {
-    post(url, params).then((res) => {
-      resolve(res)
-    }).catch((data) => {
-      reject(data)
-    })
-  })
-}
-
-export function sumbitImgData (params) {
-  let url = '/pushContent/calculate/fileData'
+  let url = '/calculate/delData'
   return new Promise((resolve, reject) => {
     post(url, params).then((res) => {
       resolve(res)

@@ -8,7 +8,7 @@ const app = new Express()
 
 app.use(bodyParser.urlencoded({extended: false}))
 //管理页面路由
-app.use('/pushContent', require('./admin'))
+app.use('/', require('./admin'))
 
 mongoose.Promise = require('bluebird')
 mongoose.connect(`mongodb://${config.dbHost}:${config.dbPort}/runoob`, function (err, db) {
