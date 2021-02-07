@@ -15,6 +15,7 @@ router.post('/fileData', multipartMiddleware, (req, res) => {
   reader.pipe(stream)
   stream.on('finish', function() {
     const data = {}
+    data.path = path.join(path.resolve(__dirname, '../../static'), name)
     responseClient(res, 200, 200, '请求成功', data)
   })
 })

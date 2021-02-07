@@ -21,7 +21,8 @@ export default {
   },
   data () {
     return {
-      editor: null
+      editor: null,
+      pathTest: ''
     }
   },
   computed: {
@@ -37,7 +38,6 @@ export default {
     this.initEdit()
   },
   methods: {
-    // To DO：图片资源不借助托管服务，存储在自身服务器是否可行
     initEdit () {
       this.editor = new Editor({
         el: document.querySelector('#editorSection'),
@@ -58,6 +58,7 @@ export default {
       console.log(1, file, fd)
       return sumbitImgData(fd).then(res => {
         console.log(2, res)
+        this.pathTest = res.data.path
         // if (res && res.data) callback(encodeURI(res.data), 'image')
       })
     },
