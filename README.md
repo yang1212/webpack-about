@@ -1,1 +1,1 @@
-webpack-about
+build-about
