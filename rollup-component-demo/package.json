@@ -1,0 +1,15 @@
+{
+  "name": "utils-fn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index",
+  "scripts": {
+    "build":  "rollup -c"
+  },
+  "author": "xx",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "rollup": "^2.44.0"
+  }
+}

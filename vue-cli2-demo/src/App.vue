@@ -1,9 +1,7 @@
 <template>
   <div id="app">
-    <!-- <img src="./assets/logo.png"> -->
     <div class="header">2323</div>
     <div class="content">erer</div>
-    <!-- <router-view/> -->
   </div>
 </template>
 
