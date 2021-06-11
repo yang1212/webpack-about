@@ -118,33 +118,67 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"index.ts":[function(require,module,exports) {
-// 由题目可推导： 最长前缀长度不会超过数组中任意一个数据的长度
-// 将第一个值依次与所有值的字符一一比较，取公共值
-function findCommonPrefix1(strs) {
-  if (strs.length === 1) {
-    return strs[0];
+"use strict";
+
+function sortM(arr) {
+  var i = arr.length - 1;
+  var temp;
+
+  while (i > 0) {
+    for (var j = 0; j < i; j++) {
+      if (arr[j] > arr[j + 1]) {
+        temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+    }
+
+    i--;
   }
 
-  var commonStr = '';
-  var tempArr = strs.map(function (item) {
-    return item.split('');
-  });
+  return arr;
+} // n个数，外层需要经过 n - 1轮
+// 内层需两两比较， 一圈过后，可确认一个最值。 比较次数为： 剩下未排序数个数 - 1,以此循环。
 
-  for (var i = 0; i < tempArr[0].length; i++) {
-    for (var j = 1; j < tempArr.length; j++) {//   if (tempArr[0][i] !== tempArr[j][i]) { // 不相等时立即结束循环
-      //     return tempArr[0].slice(0, i).join('')
-      //   } else {
-      //     if (i === tempArr[0].length - 1) {
-      //       commonStr = tempArr[0].join('')
-      //     }
-      //   }
+
+function sortK(arr) {
+  if (arr.length <= 1) {
+    return arr;
+  }
+
+  var tag = arr[Math.floor(arr.length / 2)];
+  var leftArr = [];
+  var rightArr = [];
+  arr.splice(Math.floor(arr.length / 2), 1);
+
+  for (var i = 0; i < arr.length - 1; i++) {
+    if (tag > arr[i]) {
+      leftArr.push(arr[i]);
+    } else {
+      rightArr.push(arr[i]);
     }
   }
 
-  return commonStr;
+  return sortK(leftArr).concat(tag, sortK(rightArr));
 }
 
-console.log(findCommonPrefix1(['aaac', 'aaad']));
+function sortC(arr) {
+  for (var j = 1; j < arr.length; j++) {
+    var key = arr[j];
+    var orderlyNum = j - 1; // 有序数组下标最大值即为key值前一项
+
+    while (arr[orderlyNum] > key && orderlyNum > -1) {
+      arr[orderlyNum + 1] = arr[orderlyNum];
+      orderlyNum--;
+    }
+
+    arr[orderlyNum + 1] = key; //  此步是用于完全有序的数组
+  }
+
+  return arr;
+}
+
+sortC([2, 3, 1, 5]);
 },{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -173,7 +207,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61313" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54449" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

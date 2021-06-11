@@ -3,7 +3,7 @@ npm init 项目名
 
 
 ### step2
-npm install parcel-bundler --save
+npm install parcel-bundler --save-dev
 
 
 ### step3
