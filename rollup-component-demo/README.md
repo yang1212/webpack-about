@@ -1,12 +1,14 @@
-> node > v10
-### step1:
+### `node版本限制`
+node > v10
+
+### `初始化`:
 npm init
 
-### step2:
+### `安装rollup`:
 
 npm install rollup --save-dev
 
-### step3
+### `配置`
 
 配置rollup.config.js
 
