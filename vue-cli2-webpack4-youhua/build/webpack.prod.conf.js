@@ -10,6 +10,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const terserPlugin = require('terser-webpack-plugin')
+const PrerenderSPAPlugin = require('prerender-spa-plugin')
+const Renderer = PrerenderSPAPlugin.PuppeteerRenderer
 
 const env = require('../config/prod.env')
 
@@ -112,7 +114,19 @@ const webpackConfig = merge(baseWebpackConfig, {
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       }
-    ])
+    ]),
+    new PrerenderSPAPlugin({
+      staticDir: path.join(__dirname, '../dist'),
+      routes: ['/page1'],
+
+      renderer: new Renderer({
+        inject: {
+          foo: 'bar'
+        },
+        headless: true,
+        renderAfterDocumentEvent: 'render-event'
+      })
+    })
   ],
   optimization: {
     minimizer: [
