@@ -13,7 +13,7 @@ npm install @vue/cli@3.1.3 -g
 
 ### 3、创建项目
 ```
-vue create nav-ui  (不要使用驼峰式命名)
+vue create vue-cli3-prerender  (不要使用驼峰式命名)
 ```
 
 ### 4、配置vue.config.js 
